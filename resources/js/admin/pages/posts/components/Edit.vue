@@ -86,6 +86,8 @@
 </template>
 
 <script>
+import { APP_URL } from '../../../../config/const';
+
 import ActionButton from '../../../components/buttons/ActionButton';
 import MainButton from '../../../components/buttons/MainButton';
 
@@ -164,7 +166,7 @@ export default {
      * @return void
      */
     preview() {
-      open(APP_URL + '/' + this.postType.slug + '/' + this.single.id + '?preview', '_blank');
+      open(APP_URL + '/' + this.postType.slug + '/' + this.single.slug + '?preview', '_blank');
     },
   },
 };
