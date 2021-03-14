@@ -1,6 +1,12 @@
+/.vscode
 /node_modules
-/public/hot
+/public/css
+/public/fonts
+/public/images
+/public/js
+/public/mix-manifest.json
 /public/storage
+/public/phpMyAdmin
 /storage/*.key
 /vendor
 .env
@@ -9,4 +15,6 @@
 Homestead.json
 Homestead.yaml
 npm-debug.log
+phpMyAdmin
+Thumbs.db
 yarn-error.log
