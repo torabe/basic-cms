@@ -45,7 +45,21 @@ class PostTypes extends FormRequest
             'custom_field_metas' => ['array', 'nullable'],
             'custom_field_metas.*.name' => ['required', 'string'],
             'custom_field_metas.*.type' => ['required', 'string', new AlphaDash,],
-            'custom_field_metas.*.key' => ['required', 'string', new AlphaDash],
+            'custom_field_metas.*.key' => [
+                'required',
+                'string', new AlphaDash,
+                Rule::notIn([
+                    'post_type_id',
+                    'publish_at',
+                    'unpublish_at',
+                    'slug',
+                    'title',
+                    'description',
+                    'admin_id',
+                    'sort',
+                    'is_enable',
+                ]),
+            ],
             'custom_field_metas.*.validate' => ['array', 'nullable'],
             'custom_field_metas.*.options' => ['array', 'nullable'],
         ];
