@@ -33,4 +33,7 @@ Route::group([], function () {
 
     Route::group(['middleware' => ['auth:user', 'verified']], function () {
     });
+
+    Route::get('/{slug}', 'PostsController@index')->name('post.index');
+    Route::get('/{slug}/{postSlug}', 'PostsController@show')->name('post.show');
 });
