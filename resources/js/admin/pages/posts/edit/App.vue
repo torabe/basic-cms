@@ -22,7 +22,7 @@
 
 <script>
 import axios from 'axios';
-import { APP_URL, API_URL } from '../../../../config/const';
+import { API_URL } from '../../../../config/const';
 import { OK, CREATED, UNPROCESSABLE_ENTITY, ERROR_MESSAGES } from '../../../../modules/util';
 
 import Content from '../../../components/layouts/Content';
