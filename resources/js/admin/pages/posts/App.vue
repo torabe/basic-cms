@@ -1,7 +1,10 @@
 <template>
   <Content :title="postType.name + '管理'" :icon="postType.admin_icon">
     <v-row>
-      <v-spacer> </v-spacer>
+      <v-col cols="auto">
+        <ActionButton @click="preview()">一覧ページをプレビュー</ActionButton>
+      </v-col>
+      <v-spacer />
       <v-col cols="auto">
         <ActionButton :to="{ name: 'create', params: { slug: postType.slug } }">新規作成</ActionButton>
       </v-col>
@@ -32,7 +35,7 @@
 
 <script>
 import axios from 'axios';
-import { API_URL } from '../../../config/const';
+import { APP_URL, API_URL } from '../../../config/const';
 import { OK, ERROR_MESSAGES } from '../../../modules/util';
 
 import Content from '../../components/layouts/Content';
@@ -196,6 +199,14 @@ export default {
           { root: true }
         );
       });
+    },
+    /**
+     * プレビュー
+     *
+     * @return void
+     */
+    preview() {
+      open(APP_URL + '/' + this.postType.slug + '/?preview', '_blank');
     },
   },
 };

@@ -60,10 +60,11 @@ class PostsController extends Controller
             $post->enable()->publish();
         }
         $post = $post->firstOrFail();
+        $post->fields = $post->customFields->pluck('value', 'meta.key');
 
-        foreach ($post->customFields as $field) {
-            $post->{$field->meta->key} = $field->value;
-        }
+        // foreach ($post->customFields as $field) {
+        //     $post->{$field->meta->key} = $field->value;
+        // }
 
         return view('posts.show', [
             'postType' => $this->postType,
