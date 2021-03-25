@@ -15,45 +15,70 @@
               基本情報
             </v-card-title>
             <v-card-text>
-              <ToggleSwitch
-                :label="form.is_enable ? '利用' : '停止'"
-                :error-messages="$store.getters['error/validate']('is_enable')"
-                :readonly="isNotRoleAdmin"
-                v-model="form.is_enable"
-                v-if="!isMe"
-              />
-              <TextField
-                label="ユーザー名"
-                :error-messages="$store.getters['error/validate']('name')"
-                v-model="form.name"
-              />
-              <TextField
-                label="ログイン ID"
-                :error-messages="$store.getters['error/validate']('login_id')"
-                :readonly="isNotRoleAdmin"
-                v-model="form.login_id"
-              />
-              <Select
-                label="権限"
-                :items="select.roles"
-                item-text="name"
-                item-value="id"
-                :error-messages="$store.getters['error/validate']('role_id')"
-                :readonly="isNotRoleAdmin"
-                v-model="form.role_id"
-              />
-              <TextField
-                label="メールアドレス"
-                :error-messages="$store.getters['error/validate']('email')"
-                v-model="form.email"
-              />
-              <TextField
-                label="パスワード"
-                type="password"
-                hint="半角アルファベット、数字、8文字以上"
-                :error-messages="$store.getters['error/validate']('password')"
-                v-model="form.password"
-              />
+              <v-row dense align="center">
+                <v-col cols="auto">利用 : </v-col>
+                <v-col>
+                  <ToggleSwitch
+                    :label="form.is_enable ? '有効' : '無効'"
+                    :error-messages="$store.getters['error/validate']('is_enable')"
+                    :readonly="isNotRoleAdmin"
+                    v-model="form.is_enable"
+                    v-if="!isMe"
+                  />
+                </v-col>
+              </v-row>
+              <v-row dense align="center">
+                <v-col>
+                  <TextField
+                    label="ユーザー名"
+                    :error-messages="$store.getters['error/validate']('name')"
+                    v-model="form.name"
+                  />
+                </v-col>
+              </v-row>
+              <v-row dense align="center">
+                <v-col>
+                  <TextField
+                    label="ログイン ID"
+                    :error-messages="$store.getters['error/validate']('login_id')"
+                    :readonly="isNotRoleAdmin"
+                    v-model="form.login_id"
+                  />
+                </v-col>
+              </v-row>
+              <v-row dense align="center">
+                <v-col>
+                  <Select
+                    label="権限"
+                    :items="select.roles"
+                    item-text="name"
+                    item-value="id"
+                    :error-messages="$store.getters['error/validate']('role_id')"
+                    :readonly="isNotRoleAdmin"
+                    v-model="form.role_id"
+                  />
+                </v-col>
+              </v-row>
+              <v-row dense align="center">
+                <v-col>
+                  <TextField
+                    label="メールアドレス"
+                    :error-messages="$store.getters['error/validate']('email')"
+                    v-model="form.email"
+                  />
+                </v-col>
+              </v-row>
+              <v-row dense align="center">
+                <v-col>
+                  <TextField
+                    label="パスワード"
+                    type="password"
+                    hint="半角アルファベット、数字、8文字以上"
+                    :error-messages="$store.getters['error/validate']('password')"
+                    v-model="form.password"
+                  />
+                </v-col>
+              </v-row>
             </v-card-text>
           </v-card>
         </v-col>
@@ -78,7 +103,7 @@
                       v-model="getPostType(postType.id).permission"
                     />
                   </v-list-item>
-                  <v-divider :key="postType.id" />
+                  <v-divider :key="'divider-' + postType.id" />
                 </template>
               </v-list>
             </v-card-text>

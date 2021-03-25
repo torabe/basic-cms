@@ -18,8 +18,8 @@ import CategoriesEdit from '../pages/posts/categories/edit/App';
 import Users from '../pages/users/App';
 import UserEdit from '../pages/users/edit/App';
 
-import PostProvider from '../pages/post-provider/App';
 import Posts from '../pages/posts/App';
+import PostIndex from '../pages/posts/index/App';
 import PostEdit from '../pages/posts/edit/App';
 
 import Login from '../pages/login/App';
@@ -116,12 +116,12 @@ const routes = [
   {
     path: '/posts',
     name: 'posts',
-    component: PostProvider,
+    component: Posts,
     children: [
       {
         path: ':slug',
         name: 'index',
-        component: Posts,
+        component: PostIndex,
         beforeEnter(to, from, next) {
           store.commit(
             'error/setForbidden',

@@ -101,10 +101,10 @@ class CategoriesController extends Controller
     public function sort(Request $request)
     {
         foreach ($request->input() as $value) {
-            $postType = Category::find($value['id']);
-            $postType->sort = $value['sort'];
-            $postType->timestamps = false;
-            $postType->save();
+            $category = Category::find($value['id']);
+            $category->sort = $value['sort'];
+            $category->timestamps = false;
+            $category->save();
         }
 
         return Category::with(['children'])

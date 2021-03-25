@@ -44,6 +44,6 @@ class CategoryType extends Model
      */
     public function categories()
     {
-        return $this->hasMany(Category::class, 'category_type_id');
+        return $this->hasMany(Category::class, 'category_type_id')->enable();
     }
 }

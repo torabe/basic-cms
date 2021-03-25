@@ -16,29 +16,46 @@
     <v-row>
       <v-col>
         <v-card>
-          <v-list>
-            <draggable v-model="items" @update="sort(items)">
-              <template v-for="item in items">
-                <v-list-group class="v-list-group--category-item" color="accent" :key="item.id" :value="true">
-                  <template v-slot:activator>
-                    <ListItem :item="item" :post-type="postType" :category-type="categoryType" />
-                  </template>
-
-                  <draggable v-model="item.children" @update="sort(item.children)">
-                    <template v-for="child in item.children">
+          <v-card-text>
+            <v-list>
+              <draggable v-model="items" @update="sort(items)">
+                <div v-for="item in items" :key="item.id">
+                  <v-list-group class="v-list-group--category-item" :value="item.children.length">
+                    <template v-slot:activator>
                       <ListItem
-                        class="v-list-item--child"
-                        :item="child"
-                        :key="child.id"
+                        :item="item"
                         :post-type="postType"
                         :category-type="categoryType"
+                        @update="update"
+                        @destroy="destroy"
                       />
                     </template>
-                  </draggable>
-                </v-list-group>
-              </template>
-            </draggable>
-          </v-list>
+
+                    <draggable
+                      v-model="item.children"
+                      @update="sort(item.children)"
+                      v-if="item.children.length > 0"
+                    >
+                      <template v-for="child in item.children">
+                        <v-divider :key="'divider-' + child.id" />
+                        <ListItem
+                          class="v-list-item--child"
+                          :item="child"
+                          :key="child.id"
+                          :post-type="postType"
+                          :category-type="categoryType"
+                          @update="update"
+                          @destroy="destroy"
+                        />
+                      </template>
+                    </draggable>
+                    <v-list-item v-else color="info">子カテゴリはありません。</v-list-item>
+                  </v-list-group>
+                  <v-divider />
+                </div>
+              </draggable>
+            </v-list>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
@@ -147,14 +164,23 @@ export default {
         );
 
         if (response.status === OK) {
-          this.items = this.items.map((item) => (item.id === response.data.id ? response.data : item));
+          this.items = this.items.map((item) => {
+            return item.id === response.data.id
+              ? response.data
+              : {
+                  ...item,
+                  children: item.children.map((child) =>
+                    child.id === response.data.id ? response.data : child
+                  ),
+                };
+          });
 
           this.$store.dispatch('system/createLog', {
             response: response,
             message:
               this.categoryType.name +
               '「' +
-              response.data.title +
+              response.data.name +
               '」を' +
               (response.data.is_enable ? '公開' : '非公開に') +
               'しました',
@@ -176,7 +202,6 @@ export default {
      * @return void
      */
     async sort(items) {
-      console.log(items);
       await this.$store.dispatch('page/loading', async () => {
         const response = await axios.put(
           API_URL + '/admin/' + this.categoryType.slug + '/categories/sort',
@@ -211,8 +236,13 @@ export default {
         );
 
         if (response.status === OK) {
-          const [destroyedItem] = this.items.filter((item) => item.id === response.data);
-          this.items = this.items.filter((item) => item.id !== response.data);
+          const [destroyedItem] = this.items
+            .flatMap((item) => [item, ...item.children])
+            .filter((item) => item.id === response.data);
+          this.items = this.items.filter((item) => {
+            item.children = item.children.filter((child) => child.id !== response.data);
+            return item.id !== response.data;
+          });
 
           this.$store.dispatch('system/createLog', {
             response: response,
@@ -233,17 +263,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.v-list-group {
-  &--category-item {
-    border-top: solid 1px currentcolor;
-    &:last-child {
-      border-bottom: solid 1px currentcolor;
-    }
-  }
-}
 .v-list-item {
   &--child {
-    border-top: solid 1px currentcolor;
     padding-left: 72px;
   }
 }

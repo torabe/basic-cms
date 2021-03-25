@@ -6,7 +6,7 @@
     </v-card-title>
     <v-card-text>
       <v-container>
-        <v-row v-for="categoryType in postType.category_types" :key="categoryType.slug" dense>
+        <v-row v-for="categoryType in postType.category_types" :key="categoryType.slug" align="center" dense>
           <v-col>
             <Select
               :label="categoryType.name"

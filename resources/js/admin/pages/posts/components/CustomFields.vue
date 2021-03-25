@@ -1,6 +1,12 @@
 <template>
   <div class="custom-fields" v-if="customFields">
-    <v-row class="custom-field" v-for="(meta, index) in postType.custom_field_metas" :key="index">
+    <v-row
+      class="custom-field"
+      v-for="(meta, index) in postType.custom_field_metas"
+      :key="index"
+      dense
+      align="center"
+    >
       <v-col v-if="meta.type === 'text'">
         <TextField
           :label="meta.name"

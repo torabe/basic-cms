@@ -8,6 +8,7 @@
     :error-count="errorMessages.length"
     :error-messages="errorMessages"
     @change="handleChange"
+    persistent-hint
     v-model="internalValue"
     color="success"
   />

@@ -15,34 +15,56 @@
               基本情報
             </v-card-title>
             <v-card-text>
-              <ToggleSwitch
-                :label="form.is_enable ? '公開' : '非公開'"
-                :error-messages="$store.getters['error/validate']('is_enable')"
-                v-model="form.is_enable"
-              />
-              <TextField
-                label="名称"
-                :error-messages="$store.getters['error/validate']('name')"
-                v-model="form.name"
-              />
-              <TextField
-                label="スラッグ"
-                :error-messages="$store.getters['error/validate']('slug')"
-                hint="半角英数字"
-                v-model="form.slug"
-              />
-              <Select
-                label="選択形式"
-                :items="select.selects"
-                :error-messages="$store.getters['error/validate']('select')"
-                v-model="form.select"
-              />
-              <ToggleSwitch
-                :label="form.is_multiple ? '複数選択可' : '複数選択不可'"
-                :error-messages="$store.getters['error/validate']('is_multiple')"
-                v-if="form.select === 'select'"
-                v-model="form.is_multiple"
-              />
+              <v-row dense align="center">
+                <v-col cols="auto">公開設定 : </v-col>
+                <v-col>
+                  <ToggleSwitch
+                    :label="form.is_enable ? '公開' : '非公開'"
+                    :error-messages="$store.getters['error/validate']('is_enable')"
+                    v-model="form.is_enable"
+                  />
+                </v-col>
+              </v-row>
+              <v-row dense align="center">
+                <v-col>
+                  <TextField
+                    label="名称"
+                    :error-messages="$store.getters['error/validate']('name')"
+                    v-model="form.name"
+                  />
+                </v-col>
+              </v-row>
+              <v-row dense align="center">
+                <v-col>
+                  <TextField
+                    label="スラッグ"
+                    :error-messages="$store.getters['error/validate']('slug')"
+                    hint="半角英数字"
+                    v-model="form.slug"
+                  />
+                </v-col>
+              </v-row>
+              <v-row dense align="center">
+                <v-col>
+                  <Select
+                    label="選択形式"
+                    :items="select.selects"
+                    :error-messages="$store.getters['error/validate']('select')"
+                    v-model="form.select"
+                  />
+                </v-col>
+              </v-row>
+              <v-row dense align="center">
+                <v-col cols="auto">複数選択 : </v-col>
+                <v-col>
+                  <ToggleSwitch
+                    :label="form.is_multiple ? '可' : '不可'"
+                    :error-messages="$store.getters['error/validate']('is_multiple')"
+                    v-if="form.select === 'select'"
+                    v-model="form.is_multiple"
+                  />
+                </v-col>
+              </v-row>
             </v-card-text>
           </v-card>
         </v-col>

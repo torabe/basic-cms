@@ -1,5 +1,5 @@
 <template>
-  <v-list-item color="secondary">
+  <v-list-item>
     <v-list-item-icon>
       <v-icon v-text="'mdi-arrow-all'" color="info" />
     </v-list-item-icon>
@@ -72,6 +72,24 @@ export default {
       type: Object,
       required: true,
       default: () => {},
+    },
+  },
+  methods: {
+    /**
+     * 更新
+     *
+     * @return void
+     */
+    async update(item) {
+      this.$emit('update', item);
+    },
+    /**
+     * 削除
+     *
+     * @return void
+     */
+    async destroy(item) {
+      this.$emit('destroy', item);
     },
   },
 };
