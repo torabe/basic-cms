@@ -15,50 +15,82 @@
               メタ情報
             </v-card-title>
             <v-card-text>
-              <ToggleSwitch
-                :label="form.is_enable ? '公開' : '非公開'"
-                :error-messages="$store.getters['error/validate']('is_enable')"
-                v-model="form.is_enable"
-              />
-              <TextField
-                label="スラッグ"
-                :error-messages="$store.getters['error/validate']('slug')"
-                hint="半角英数字"
-                v-model="form.slug"
-              />
-              <TextField
-                label="管理画面上のアイコン"
-                :error-messages="$store.getters['error/validate']('admin_icon')"
-                hint="https://materialdesignicons.com/"
-                :icon="form.admin_icon"
-                v-model="form.admin_icon"
-              />
-              <TextField
-                label="1ページ当たりの表示件数"
-                type="number"
-                :error-messages="$store.getters['error/validate']('per_page')"
-                hint="上限なしの場合は「-1」と入力"
-                v-model="form.per_page"
-              />
-              <Select
-                label="親投稿"
-                :items="select.post_types"
-                item-text="name"
-                item-value="id"
-                :error-messages="$store.getters['error/validate']('parent_id')"
-                v-if="select.post_types && select.post_types.length > 0"
-                v-model="form.parent_id"
-              />
-              <ToggleSwitch
-                :label="form.is_sortable ? '並び替えを許可する' : '並び替えを許可しない'"
-                :error-messages="$store.getters['error/validate']('is_sortable')"
-                v-model="form.is_sortable"
-              />
-              <ToggleSwitch
-                :label="form.is_customize ? '管理画面カスタマイズ有' : '管理画面カスタマイズ無'"
-                :error-messages="$store.getters['error/validate']('is_customize')"
-                v-model="form.is_customize"
-              />
+              <v-row dense align="center">
+                <v-col cols="auto">公開設定 : </v-col>
+                <v-col>
+                  <ToggleSwitch
+                    :label="form.is_enable ? '公開' : '非公開'"
+                    :error-messages="$store.getters['error/validate']('is_enable')"
+                    v-model="form.is_enable"
+                  />
+                </v-col>
+              </v-row>
+              <v-row dense align="center">
+                <v-col>
+                  <TextField
+                    label="スラッグ"
+                    :error-messages="$store.getters['error/validate']('slug')"
+                    hint="半角英数字"
+                    v-model="form.slug"
+                  />
+                </v-col>
+              </v-row>
+              <v-row dense align="center">
+                <v-col>
+                  <TextField
+                    label="管理画面上のアイコン"
+                    :error-messages="$store.getters['error/validate']('admin_icon')"
+                    hint="https://materialdesignicons.com/"
+                    :icon="form.admin_icon"
+                    v-model="form.admin_icon"
+                  />
+                </v-col>
+              </v-row>
+              <v-row dense align="center">
+                <v-col>
+                  <TextField
+                    label="1ページ当たりの表示件数"
+                    type="number"
+                    :error-messages="$store.getters['error/validate']('per_page')"
+                    hint="上限なしの場合は「-1」と入力"
+                    v-model="form.per_page"
+                  />
+                </v-col>
+              </v-row>
+              <v-row dense align="center">
+                <v-col>
+                  <Select
+                    label="親投稿"
+                    :items="select.post_types"
+                    item-text="name"
+                    item-value="id"
+                    :error-messages="$store.getters['error/validate']('parent_id')"
+                    v-if="select.post_types && select.post_types.length > 0"
+                    v-model="form.parent_id"
+                  />
+                </v-col>
+              </v-row>
+              <v-row dense align="center">
+                <v-col cols="auto">並び順 : </v-col>
+                <v-col>
+                  <ToggleSwitch
+                    :label="form.is_sortable ? '手動で並び順を変更する' : '投稿日時でソート'"
+                    :error-messages="$store.getters['error/validate']('is_sortable')"
+                    v-model="form.is_sortable"
+                  />
+                </v-col>
+              </v-row>
+              <v-row dense align="center">
+                <v-col cols="auto">編集画面のカスタマイズ : </v-col>
+                <v-col>
+                  <ToggleSwitch
+                    :label="form.is_customize ? '有効' : '無効'"
+                    :error-messages="$store.getters['error/validate']('is_customize')"
+                    v-model="form.is_customize"
+                  />
+                </v-col>
+                <v-messages :value="['※有効の場合、開発者が管理画面のVueコンポーネント作成してください']" />
+              </v-row>
             </v-card-text>
             <v-card-actions>
               <v-spacer />
@@ -74,16 +106,24 @@
               基本情報
             </v-card-title>
             <v-card-text>
-              <TextField
-                label="名称"
-                :error-messages="$store.getters['error/validate']('name')"
-                v-model="form.name"
-              />
-              <Textarea
-                label="概要"
-                :error-messages="$store.getters['error/validate']('description')"
-                v-model="form.description"
-              />
+              <v-row dense align="center">
+                <v-col>
+                  <TextField
+                    label="名称"
+                    :error-messages="$store.getters['error/validate']('name')"
+                    v-model="form.name"
+                  />
+                </v-col>
+              </v-row>
+              <v-row dense align="center">
+                <v-col>
+                  <Textarea
+                    label="概要"
+                    :error-messages="$store.getters['error/validate']('description')"
+                    v-model="form.description"
+                  />
+                </v-col>
+              </v-row>
             </v-card-text>
           </v-card>
 
@@ -93,14 +133,18 @@
               カテゴリタイプ
             </v-card-title>
             <v-card-text>
-              <Select
-                :items="select.category_types"
-                item-text="name"
-                item-value="id"
-                :error-messages="$store.getters['error/validate']('category_type_ids')"
-                multiple
-                v-model="form.category_type_ids"
-              />
+              <v-row dense align="center">
+                <v-col>
+                  <Select
+                    :items="select.category_types"
+                    item-text="name"
+                    item-value="id"
+                    :error-messages="$store.getters['error/validate']('category_type_ids')"
+                    multiple
+                    v-model="form.category_type_ids"
+                  />
+                </v-col>
+              </v-row>
             </v-card-text>
           </v-card>
 

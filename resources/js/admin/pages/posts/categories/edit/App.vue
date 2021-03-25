@@ -20,8 +20,9 @@
             </v-card-title>
             <v-card-text>
               <v-container>
-                <v-row dense>
-                  <v-col cols="auto">
+                <v-row dense align="center">
+                  <v-col cols="auto">公開設定 : </v-col>
+                  <v-col>
                     <ToggleSwitch
                       :label="form.is_enable ? '公開' : '非公開'"
                       :error-messages="$store.getters['error/validate']('is_enable')"
@@ -29,8 +30,8 @@
                     />
                   </v-col>
                 </v-row>
-                <v-row dense>
-                  <v-col cols="auto">
+                <v-row dense align="center">
+                  <v-col>
                     <TextField
                       label="名称"
                       :error-messages="$store.getters['error/validate']('name')"
@@ -38,8 +39,8 @@
                     />
                   </v-col>
                 </v-row>
-                <v-row dense>
-                  <v-col cols="auto">
+                <v-row dense align="center">
+                  <v-col>
                     <TextField
                       label="スラッグ"
                       :error-messages="$store.getters['error/validate']('slug')"
@@ -48,8 +49,8 @@
                     />
                   </v-col>
                 </v-row>
-                <v-row dense>
-                  <v-col cols="auto">
+                <v-row dense align="center">
+                  <v-col>
                     <Select
                       label="親カテゴリ"
                       :items="select.categories"

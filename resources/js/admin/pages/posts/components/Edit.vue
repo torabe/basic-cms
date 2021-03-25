@@ -7,26 +7,41 @@
           基本情報
         </v-card-title>
         <v-card-subtitle v-if="!isCreate && single.author"> 著者：{{ single.author.name }} </v-card-subtitle>
+        <v-card-actions>
+          <ActionButton @click="preview()" v-if="!isCreate">プレビュー</ActionButton>
+        </v-card-actions>
         <v-card-text>
-          <v-row dense>
+          <v-row dense align="center">
+            <v-col cols="auto">公開設定 : </v-col>
             <v-col>
-              <ActionButton @click="preview()" v-if="!isCreate">プレビュー</ActionButton>
               <ToggleSwitch
                 :label="form.is_enable ? '公開' : '非公開'"
                 :error-messages="$store.getters['error/validate']('is_enable')"
                 v-model="form.is_enable"
               />
+            </v-col>
+          </v-row>
+          <v-row dense align="center">
+            <v-col>
               <DateTimePicker
                 label="公開日"
                 hint="※必須入力"
                 :error-messages="$store.getters['error/validate']('publish_at')"
                 v-model="form.publish_at"
               />
+            </v-col>
+          </v-row>
+          <v-row dense align="center">
+            <v-col>
               <DateTimePicker
                 label="公開終了日"
                 :error-messages="$store.getters['error/validate']('unpublish_at')"
                 v-model="form.unpublish_at"
               />
+            </v-col>
+          </v-row>
+          <v-row dense align="center">
+            <v-col>
               <TextField
                 label="スラッグ"
                 :error-messages="$store.getters['error/validate']('slug')"
@@ -35,7 +50,7 @@
               />
             </v-col>
           </v-row>
-          <v-row>
+          <v-row dense align="center">
             <v-col>
               <Textarea
                 label="概要"
