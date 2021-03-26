@@ -89,7 +89,7 @@ class CategoriesController extends Controller
         $category = Category::find($id);
         $category->fill($request->all())->save();
 
-        return $category;
+        return $category->fresh(['children']);
     }
 
     /**
