@@ -231,6 +231,8 @@ export default {
           this.single = { ...response.data };
           this.form = { ...response.data };
 
+          await this.$store.dispatch('page/postTypes');
+
           this.$store.dispatch('system/createLog', {
             response: response,
             message: 'カテゴリタイプを' + this.action + 'しました',

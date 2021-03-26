@@ -142,6 +142,8 @@ export default {
         if (response.status === OK) {
           this.items = this.items.map((item) => (item.id === response.data.id ? response.data : item));
 
+          await this.$store.dispatch('page/postTypes');
+
           this.$store.dispatch('system/createLog', {
             response: response,
             message:
@@ -176,6 +178,8 @@ export default {
         if (response.status === OK) {
           const [destroyedItem] = this.items.filter((item) => item.id === response.data);
           this.items = this.items.filter((item) => item.id !== response.data);
+
+          await this.$store.dispatch('page/postTypes');
 
           this.$store.dispatch('system/createLog', {
             response: response,
