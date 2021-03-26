@@ -54,13 +54,12 @@
                   />
                 </v-col>
               </v-row>
-              <v-row dense align="center">
+              <v-row dense align="center" v-if="form.select === 'select'">
                 <v-col cols="auto">複数選択 : </v-col>
                 <v-col>
                   <ToggleSwitch
                     :label="form.is_multiple ? '可' : '不可'"
                     :error-messages="$store.getters['error/validate']('is_multiple')"
-                    v-if="form.select === 'select'"
                     v-model="form.is_multiple"
                   />
                 </v-col>

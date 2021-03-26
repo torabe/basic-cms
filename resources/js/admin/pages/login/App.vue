@@ -10,6 +10,7 @@
                 icon="mdi-account-circle"
                 label="Login ID"
                 :error-messages="$store.getters['error/validate']('login_id')"
+                :clearable="false"
                 v-model="form.login_id"
               />
               <TextField
@@ -17,6 +18,7 @@
                 type="password"
                 label="Password"
                 :error-messages="$store.getters['error/validate']('password')"
+                :clearable="false"
                 v-model="form.password"
               />
             </v-card-text>
