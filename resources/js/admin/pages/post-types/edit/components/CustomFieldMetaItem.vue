@@ -84,7 +84,7 @@
                     />
                   </v-col>
                 </v-row>
-                <v-row dense v-if="fieldMeta.type !== 'loop'">
+                <v-row dense v-if="fieldMeta.type !== 'multiple'">
                   <v-col>
                     <TextField
                       label="入力時のヒント"
@@ -96,6 +96,57 @@
                     />
                   </v-col>
                 </v-row>
+                <template v-if="fieldMeta.type === 'multiple'">
+                  <v-row dense>
+                    <v-col cols="auto">
+                      <TextField
+                        label="最小値"
+                        type="number"
+                        :error-messages="
+                          $store.getters['error/validate'](`custom_field_metas.${index}.options.min`)
+                        "
+                        :clearble="false"
+                        v-model="fieldMeta.options.min"
+                        dense
+                      />
+                    </v-col>
+                    <v-col cols="auto">
+                      <TextField
+                        label="最大値"
+                        type="number"
+                        :error-messages="
+                          $store.getters['error/validate'](`custom_field_metas.${index}.options.max`)
+                        "
+                        :clearble="false"
+                        v-model="fieldMeta.options.max"
+                        dense
+                      />
+                    </v-col>
+                  </v-row>
+                  <v-row dense>
+                    <v-col>
+                      <draggable v-model="fieldMeta.children" tag="div" @update="sort">
+                        <v-row dense v-for="(child, i) in fieldMeta.children" :key="'children-' + i">
+                          <v-col>
+                            <CustomFieldMetaItem
+                              :types="types"
+                              :validates="validates"
+                              :index="i"
+                              v-model="fieldMeta.children[i]"
+                              @destroy="destroy"
+                              v-if="!child.is_delete"
+                            />
+                          </v-col>
+                        </v-row>
+                      </draggable>
+                      <v-row>
+                        <v-col>
+                          <ActionButton @click="add">追加</ActionButton>
+                        </v-col>
+                      </v-row>
+                    </v-col>
+                  </v-row>
+                </template>
               </template>
             </v-col>
           </v-row>
@@ -109,20 +160,25 @@
 <script>
 import draggable from 'vuedraggable';
 
+import ActionButton from '../../../../components/buttons/ActionButton';
 import DeleteButton from '../../../../components/buttons/DeleteButton';
 import File from '../../../../components/form/File';
 import TextField from '../../../../components/form/TextField';
 import Select from '../../../../components/form/Select';
 import ToggleSwitch from '../../../../components/form/ToggleSwitch';
+import CustomFieldMetaItem from './CustomFieldMetaItem';
 
 export default {
+  name: 'CustomFieldMetaItem',
   components: {
     draggable,
+    ActionButton,
     DeleteButton,
     File,
     TextField,
     ToggleSwitch,
     Select,
+    CustomFieldMetaItem,
   },
   props: {
     types: {
@@ -171,6 +227,30 @@ export default {
     },
   },
   methods: {
+    add() {
+      this.fieldMeta = {
+        ...this.fieldMeta,
+        children: [
+          ...this.fieldMeta.children,
+          {
+            id: null,
+            name: '',
+            type: '',
+            key: '',
+            validate: [],
+            options: {},
+            parent_id: this.fieldMeta.id,
+            sort: this.fieldMeta.children.length + 1,
+          },
+        ],
+      };
+    },
+    sort() {
+      this.fieldMeta.children = this.fieldMeta.children.map((child, index) => ({
+        ...child,
+        sort: index + 1,
+      }));
+    },
     destroy() {
       this.$emit('destroy', { field: this.fieldMeta, index: this.index });
     },

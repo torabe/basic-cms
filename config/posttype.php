@@ -10,7 +10,7 @@ return [
         ['text' => '画像', 'value' => 'image'],
         ['text' => 'ファイル', 'value' => 'file'],
         ['text' => 'リンク', 'value' => 'link'],
-        // ['text' => 'ループ', 'value' => 'loop']
+        ['text' => 'ループ', 'value' => 'multiple']
     ],
     'field_validates' => [
         'text' => [
@@ -47,7 +47,7 @@ return [
         'link' => [
             ['text' => '必須入力', 'value' => 'required'],
         ],
-        'loop' => [
+        'multiple' => [
             ['text' => '必須入力', 'value' => 'required'],
         ],
     ],

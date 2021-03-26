@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Helpers\StorageHelper;
+use App\Models\CustomField as Children;
 use App\Models\Traits\Sortable;
 
 class CustomField extends Model
@@ -19,6 +20,8 @@ class CustomField extends Model
         'post_id' => 0,
         'meta_id' => 0,
         'value' => null,
+        'parent_id' => null,
+        'sort' => null,
     ];
 
     /**
@@ -30,11 +33,23 @@ class CustomField extends Model
         'post_id',
         'meta_id',
         'value',
+        'parent_id',
+        'sort',
     ];
 
     public function meta()
     {
         return $this->belongsTo(CustomFieldMeta::class, 'meta_id');
+    }
+
+    /**
+     * 子投稿タイプのリレーション
+     *
+     * @return void
+     */
+    public function children()
+    {
+        return $this->hasMany(Children::class, 'parent_id');
     }
 
     /**

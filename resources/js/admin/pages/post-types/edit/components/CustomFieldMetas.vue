@@ -94,6 +94,7 @@ export default {
           options: {},
           parent_id: null,
           sort: this.custom_field_metas.length + 1,
+          children: [],
         },
       ];
     },

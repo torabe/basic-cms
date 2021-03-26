@@ -18,6 +18,8 @@ class CreateCustomFieldsTable extends Migration
             $table->unsignedBigInteger('post_id')->comment('投稿ID');
             $table->unsignedBigInteger('meta_id')->comment('メタID');
             $table->longText('value')->nullable()->comment('値');
+            $table->unsignedBigInteger('parent_id')->nullable()->comment('親ID');
+            $table->unsignedBigInteger('sort')->nullable()->comment('並び順');
             $table->timestamps();
         });
 
