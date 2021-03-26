@@ -93,7 +93,7 @@ class PostTypesController extends Controller
 
         $postType->categoryTypes()->sync($request->input('category_type_ids', []));
         foreach ($request->input('custom_field_metas', []) as $index => $meta) {
-            if ($request->has('custom_field_metas' . $index . 'is_delete')) {
+            if ($request->has('custom_field_metas.' . $index . '.is_delete')) {
                 CustomFieldMeta::find($meta['id'])->delete();
                 continue;
             }
