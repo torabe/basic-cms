@@ -8,7 +8,7 @@
     :disabled="disabled"
     :error-count="errorMessages.length"
     :error-messages="errorMessages"
-    :clearable="!readonly"
+    :clearable="clearable && !readonly"
     :dense="dense"
     :prefix="prefix"
     :suffix="suffix"
@@ -54,6 +54,11 @@ export default {
       type: Array,
       required: false,
       default: () => [],
+    },
+    clearable: {
+      type: Boolean,
+      required: false,
+      default: true,
     },
     value: {
       type: [String, Number],
