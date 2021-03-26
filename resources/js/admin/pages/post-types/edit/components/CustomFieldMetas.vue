@@ -7,118 +7,17 @@
     <v-card-text>
       <v-list>
         <draggable v-model="custom_field_metas" tag="div" @update="sort">
-          <div v-for="(field_meta, index) in custom_field_metas">
-            <v-list-group elevation="1" :key="index" :prepend-icon="'mdi-arrow-all'" color="primary">
-              <template v-slot:activator>
-                <v-list-item-content>
-                  <v-list-item-title>{{ getName(field_meta, index) }}</v-list-item-title>
-                </v-list-item-content>
-              </template>
-
-              <v-list-item>
-                <v-container dense>
-                  <v-row dense>
-                    <v-col>
-                      <v-row dense>
-                        <v-col>
-                          <TextField
-                            label="フィールド名"
-                            :error-messages="
-                              $store.getters['error/validate'](`custom_field_metas.${index}.name`)
-                            "
-                            v-model="field_meta.name"
-                            dense
-                          />
-                        </v-col>
-                      </v-row>
-                      <v-row dense>
-                        <v-col>
-                          <TextField
-                            label="キー"
-                            :error-messages="
-                              $store.getters['error/validate'](`custom_field_metas.${index}.key`)
-                            "
-                            hint="半角英数記号"
-                            v-model="field_meta.key"
-                            dense
-                          />
-                        </v-col>
-                      </v-row>
-                      <v-row dense>
-                        <v-col>
-                          <Select
-                            label="タイプ"
-                            :items="types"
-                            :error-messages="
-                              $store.getters['error/validate'](`custom_field_metas.${index}.type`)
-                            "
-                            v-model="field_meta.type"
-                            dense
-                          />
-                        </v-col>
-                      </v-row>
-                      <v-row dense>
-                        <v-col>
-                          <Select
-                            label="バリデーション"
-                            :items="validates[field_meta.type]"
-                            :error-messages="
-                              $store.getters['error/validate'](`custom_field_metas.${index}.validate`)
-                            "
-                            multiple
-                            v-if="validates[field_meta.type]"
-                            v-model="field_meta.validate"
-                            dense
-                          />
-                        </v-col>
-                      </v-row>
-                      <v-row dense v-if="field_meta.type === 'text' || field_meta.type === 'textarea'">
-                        <v-col cols="auto">
-                          <TextField
-                            label="接頭辞"
-                            :error-messages="
-                              $store.getters['error/validate'](`custom_field_metas.${index}.options.prefix`)
-                            "
-                            v-model="field_meta.options.prefix"
-                            dense
-                          />
-                        </v-col>
-                        <v-col cols="auto">
-                          <TextField
-                            label="接尾辞"
-                            :error-messages="
-                              $store.getters['error/validate'](`custom_field_metas.${index}.options.suffix`)
-                            "
-                            v-model="field_meta.options.suffix"
-                            dense
-                          />
-                        </v-col>
-                      </v-row>
-                      <v-row dense v-if="field_meta.type !== 'loop'">
-                        <v-col>
-                          <TextField
-                            label="入力時のヒント"
-                            :error-messages="
-                              $store.getters['error/validate'](`custom_field_metas.${index}.options.hint`)
-                            "
-                            v-model="field_meta.options.hint"
-                            dense
-                          />
-                        </v-col>
-                      </v-row>
-                    </v-col>
-                    <v-col cols="auto">
-                      <v-spacer />
-                      <DeleteButton @click="destroy(field_meta, index)">
-                        <v-icon small v-text="'mdi-delete'" />削除
-                      </DeleteButton>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-list-item>
-            </v-list-group>
-            <v-divider :key="'divider-' + index" />
-          </div>
+          <template v-for="(fieldMeta, index) in custom_field_metas">
+            <CustomFieldMetaItem
+              :key="index"
+              :types="types"
+              :validates="validates"
+              :index="index"
+              v-model="custom_field_metas[index]"
+              @destroy="destroy"
+              v-if="!fieldMeta.is_delete"
+            />
+          </template>
         </draggable>
       </v-list>
     </v-card-text>
@@ -140,21 +39,13 @@
 import draggable from 'vuedraggable';
 
 import ActionButton from '../../../../components/buttons/ActionButton';
-import DeleteButton from '../../../../components/buttons/DeleteButton';
-import File from '../../../../components/form/File';
-import TextField from '../../../../components/form/TextField';
-import Select from '../../../../components/form/Select';
-import ToggleSwitch from '../../../../components/form/ToggleSwitch';
+import CustomFieldMetaItem from './CustomFieldMetaItem';
 
 export default {
   components: {
     draggable,
     ActionButton,
-    DeleteButton,
-    File,
-    TextField,
-    ToggleSwitch,
-    Select,
+    CustomFieldMetaItem,
   },
   props: {
     types: {
@@ -175,11 +66,6 @@ export default {
   },
   data() {
     return { custom_field_metas: this.value };
-  },
-  computed: {
-    getName() {
-      return (field, index) => (field.name ? field.name : `カスタムフィールド${index + 1}`);
-    },
   },
   watch: {
     value: {
@@ -217,13 +103,14 @@ export default {
         sort: index + 1,
       }));
     },
-    async destroy(field, index) {
+    destroy({ field, index }) {
       if (field.id === null) {
-        this.custom_field_metas = this.custom_field_metas.filter((field_meta, i) => field_meta !== index);
+        this.custom_field_metas = this.custom_field_metas.filter((field_meta, i) => i !== index);
         return;
       }
       this.custom_field_metas = this.custom_field_metas.map((field_meta) => {
         if (field.id === field_meta.id) field_meta.is_delete = true;
+        console.log(field_meta);
         return field_meta;
       });
     },
