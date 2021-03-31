@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
 
-class PostsController extends Controller
+class PostController extends Controller
 {
     /**
      * 投稿タイプ

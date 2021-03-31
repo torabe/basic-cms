@@ -38,15 +38,15 @@ Route::namespace('Api')->middleware('api')->group(function () {
             Route::put('post-types/sort', 'PostTypesController@sort')->name('post-types.sort');
             Route::resource('post-types', 'PostTypesController', ['except' => ['create', 'edit']]);
 
-            Route::put('{slug}/sort', 'PostsController@sort')->name('posts.sort');
-            Route::resource('{slug}/posts', 'PostsController', ['except' => ['create', 'edit']]);
+            Route::put('{slug}/sort', 'PostController@sort')->name('posts.sort');
+            Route::resource('{slug}/posts', 'PostController', ['except' => ['create', 'edit']]);
 
             Route::resource('users', 'AdminController', ['except' => ['create', 'edit']]);
         });
     });
 
-    Route::get('{slug}', 'PostsController@index')->name('index');
-    Route::get('{slug}/{postSlug}', 'PostsController@show')->name('show');
+    Route::get('{slug}', 'PostController@index')->name('index');
+    Route::get('{slug}/{postSlug}', 'PostController@show')->name('show');
 
     Route::group(['middleware' => ['auth:user']], function () {
     });

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
 
-class PostsController extends Controller
+class PostController extends Controller
 {
     /**
      * Create a new controller instance.
