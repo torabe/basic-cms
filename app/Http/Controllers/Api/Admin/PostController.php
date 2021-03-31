@@ -10,7 +10,7 @@ use App\Traits\Uploadable;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
-class PostsController extends Controller
+class PostController extends Controller
 {
     use Uploadable;
 
