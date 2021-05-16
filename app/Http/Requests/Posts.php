@@ -64,7 +64,7 @@ class Posts extends FormRequest
                     $customeFieldRules['custom_fields.' . $index . '.value'] = ['array'];
                     $customeFieldRules['custom_fields.' . $index . '.value.url'] = array_merge($validation, ['url']);
                     $customeFieldRules['custom_fields.' . $index . '.value.text'] = ['nullable', 'string'];
-                    continue;
+                    continue 2;
                     break;
             }
             $customeFieldRules['custom_fields.' . $index . '.value'] = $validation;
