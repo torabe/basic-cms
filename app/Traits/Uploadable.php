@@ -35,7 +35,7 @@ trait Uploadable
     {
         if (is_string($file) || $file === null) return $file;
 
-        return $file->store($this->getUploadPath());
+        return Storage::disk(Config::get('filesystems.disks.s3.bucket') ? 's3' : 'local')->putFile($this->getUploadPath(), $file, 'public');
     }
 
     /**
@@ -49,6 +49,6 @@ trait Uploadable
         if ($url === null) return;
 
         $path = StorageHelper::getStoragePath($url);
-        Storage::delete($path);
+        Storage::disk(Config::get('filesystems.disks.s3.bucket') ? 's3' : 'local')->delete($path);
     }
 }
