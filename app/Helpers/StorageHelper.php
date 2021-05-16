@@ -14,7 +14,9 @@ class StorageHelper
      */
     public static function getSymbolicLink(?string $path)
     {
-        return ($path !== null) ? asset(preg_replace('/^public/i', 'storage', $path)) : $path;
+        if (is_null($path)) return $path;
+
+        return \Storage::disk(Config::get('filesystems.disks.s3.bucket') ? 's3' : 'local')->url($path);
     }
 
     /**
@@ -25,6 +27,8 @@ class StorageHelper
      */
     public static function getStoragePath(?string $url)
     {
-        return ($url !== null) ? str_replace(Config::get('app.url') . '/storage', 'public',  $url) : $url;
+        if (is_null($url)) return $url;
+
+        return Config::get('filesystems.disks.s3.bucket') ? preg_replace('/http[s]?:\/\/[^\/]*/u', '', $url) : str_replace('/storage', 'public',  $url);
     }
 }
