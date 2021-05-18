@@ -15,11 +15,6 @@ class PostsController extends Controller
     use Uploadable;
 
     /**
-     * 画像アップロード先
-     */
-    const UPLOAD_PATH = '/public/';
-
-    /**
      * relations
      */
     const SUPPORTED_RELATIONS = [
@@ -47,7 +42,7 @@ class PostsController extends Controller
     {
         $this->middleware('posttype');
         $date = Carbon::now();
-        $this->setUploadPath(Self::UPLOAD_PATH . $date->format('Y/m'));
+        $this->setUploadPath($date->format('Y/m'));
     }
 
     /**
@@ -91,7 +86,7 @@ class PostsController extends Controller
 
             foreach ($request->input('custom_fields', []) as $index => $customField) {
                 if ($request->hasFile('custom_fields.' . $index . '.value')) {
-                    // $this->setUploadPath(Self::UPLOAD_PATH . $post->postType->slug);
+                    // $this->setUploadPath($post->postType->slug);
                     $value = $this->fileUpload($request->file('custom_fields.' . $index . '.value'));
                     $post->customFields()->create(array_merge($customField, ['value' => $value]));
                     continue;
@@ -154,7 +149,7 @@ class PostsController extends Controller
                         $this->fileDelete($CustomField->value);
                     }
 
-                    // $this->setUploadPath(Self::UPLOAD_PATH . $post->postType->slug);
+                    // $this->setUploadPath($post->postType->slug);
                     $value = $this->fileUpload($request->file('custom_fields.' . $index . '.value'));
                     $post->customFields()->updateOrCreate(
                         ['id' => $customField['id'] ?? null],

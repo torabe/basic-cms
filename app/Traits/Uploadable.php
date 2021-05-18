@@ -17,7 +17,7 @@ trait Uploadable
 
     private function setUploadPath($uploadPath)
     {
-        $this->uploadPath = $uploadPath;
+        $this->uploadPath = '/public/' . $uploadPath;
     }
 
     private function getUploadPath()
@@ -50,5 +50,15 @@ trait Uploadable
 
         $path = StorageHelper::getStoragePath($url);
         Storage::disk(Config::get('filesystems.disks.s3.bucket') ? 's3' : 'local')->delete($path);
+    }
+
+    /**
+     * ディレクトリの削除
+     *
+     * @return void
+     */
+    private function deleteDirectory()
+    {
+        Storage::disk(Config::get('filesystems.disks.s3.bucket') ? 's3' : 'local')->deleteDirectory($this->getUploadPath());
     }
 }
